@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Model;
 
 namespace Api.Controllers
 {
@@ -19,12 +20,15 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<int> Get()
+        public string Get([FromBody] Query query)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5)
-                .Select(index => rng.Next(-20, 55))
-                .ToArray();
+            return $"Some order with payment Id of {query.PaymentId} and merchant Id of {query.MerchantId}";
+        }
+
+        [HttpPost]
+        public string Post([FromBody] Order order)
+        {
+            return "Posted";
         }
     }
 }
