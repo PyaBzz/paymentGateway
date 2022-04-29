@@ -4,27 +4,20 @@ using System.Text.Json.Serialization;
 
 namespace Core
 {
-
     public enum QueryStatus { Denied, Resolved }
-
-    // public interface IResponseFactory
-    // {
-    //     Response Create(Order order, OrderStatus status);
-    // }
 
     public class Response
     {
-        public Order Order { get; }
-        public QueryStatus Status { get; }
-        public Response(Order order, QueryStatus status)
+        public Order Order { get; private set; }
+        public QueryStatus Status { get; private set; }
+        private Response() { }
+
+        public static Response Create(Order order, QueryStatus status)
         {
-            Order = order.ObscureClone();
-            Status = status;
+            var instance = new Response();
+            instance.Order = order.ObscureClone();
+            instance.Status = status;
+            return instance;
         }
-        // public static Response Create(Order order, QueryStatus status)
-        // {
-        //     Order = order.ObscureClone();
-        //     Status = status;
-        // }
     }
 }

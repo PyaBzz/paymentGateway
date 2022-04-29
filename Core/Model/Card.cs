@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace Core
-{
+{ //todo: write documentation about doc comments
     public class Card
     {//doc: immutable
         private const string OBSCURE_PART = "****-****-****";
@@ -14,6 +14,7 @@ namespace Core
         public Currency Currency { get; }
         public int CVV { get; }
         public bool IsObscure => Number.Substring(0, 14) == OBSCURE_PART;
+
         public Card(string number, ExpiryDate expiry, Currency currency, int cvv)
         {
             Number = number;
@@ -43,7 +44,7 @@ namespace Core
     }
 
     public class ExpiryDate
-    {//doc: immutable
+    {//todo: make immutable
         public ExpiryDate(int month, int day)
         {
             Month = month;
