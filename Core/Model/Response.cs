@@ -8,11 +8,11 @@ namespace Core
 
     public class Response
     {
-        public Order Order { get; private set; }
+        public IOrder Order { get; private set; }
         public QueryStatus Status { get; private set; }
         private Response() { }
 
-        public static Response Create(Order order, QueryStatus status)
+        public static Response Create(IOrder order, QueryStatus status)
         {
             var instance = new Response();
             instance.Order = order.ObscureClone();

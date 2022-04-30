@@ -5,15 +5,15 @@
 
 // namespace Test
 // {
-//     public class ResponseTest
+//     public class CardTest
 //     {
 //         private readonly string cardNo = "1234-5678-8765-4321";
 //         private Card card;
 //         private Order order;
 
-//         public ResponseTest()
+//         public CardTest()
 //         {
-//             var expiry = new ExpiryDate(2, 4);
+//             var expiry = new ExpiryDate.Create(2022, 2);
 //             card = new Card(cardNo, expiry, Currency.GBP, 777);
 //             order = new Order { Id = 1, MerchantId = 2, Card = card, Amount = 0.5m };
 //         }
@@ -21,6 +21,7 @@
 //         [Fact]
 //         public void Create_Obscures_Card_Number()
 //         {
+//             Assert.False(order.Card.IsObscure);
 //             var response = Response.Create(order, QueryStatus.Resolved);
 //             Assert.True(response.Order.Card.IsObscure);
 //         }
@@ -30,15 +31,6 @@
 //         {
 //             var response = Response.Create(order, QueryStatus.Resolved);
 //             Assert.Same(card.Number, cardNo);
-//         }
-
-//         [Fact]
-//         public void Create_ComposesResponseFromNewObjects()
-//         {
-//             var order = new Mock<IOrder>();
-//             // order.SetupGet(x => x.Card).Returns(card);
-//             var response = Response.Create(order.Object, QueryStatus.Resolved);
-//             Assert.NotSame(order, response.Order);
 //         }
 //     }
 // }

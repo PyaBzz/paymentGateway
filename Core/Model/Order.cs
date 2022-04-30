@@ -6,7 +6,12 @@ namespace Core
 {
     public enum OrderStatus { Pending, TimedOut, Declined, Success }
 
-    public class Order
+    public interface IOrder
+    {
+        Card Card { get; }
+        Order ObscureClone();
+    }
+    public class Order : IOrder //todo: rename to payment
     { //todo: make immutable
         public int Id { get; set; }
         public int MerchantId { get; set; }
