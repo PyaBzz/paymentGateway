@@ -5,32 +5,48 @@ using System.Text.Json.Serialization;
 namespace Core
 { //todo: write documentation about doc comments
     public enum Currency { GBP, USD, EUR } // [EnumMember(Value = "GBP")]
-    public class Card
+
+    public interface IExpirable { bool IsExpired { get; } }
+
+    public interface IObscurable { ICard GetObscureClone(); }
+
+    public interface ICard : IExpirable, IObscurable
+    {
+        //todo: Calculate Id from Number+Expiry+CVV
+        string Number { get; }
+        IDate Expiry { get; }
+        int Cvv { get; }
+        Currency Currency { get; }
+    }
+
+    public class Card : ICard
     {//doc: immutable
         private const string OBSCURE_PART = "****-****-****";
-        //todo: Apply the CreditCardAttribute for validation
+        //todo: PIN ?
         public string Number { get; private set; }
         public IDate Expiry { get; private set; }
         [JsonConverter(typeof(JsonStringEnumConverter))] //todo: could apply to the enum itself?
+        public int Cvv { get; private set; }
         public Currency Currency { get; private set; }
-        public int CVV { get; private set; }
-        public bool IsObscure => Number.Substring(0, 14) == OBSCURE_PART;
+        public bool IsExpired => Expiry.IsPassed;
 
-        public Card(string number, IDate expiry, int cvv, Currency currency)
+        public ICard GetObscureClone()
         {
-            Number = number;
-            Expiry = expiry;
-            Currency = currency;
-            CVV = cvv;
+            var obscureNumber = OBSCURE_PART + "-" + Number.Substring(14);
+            return Card.Create(obscureNumber, Expiry, Cvv, Currency);
         }
 
-        public Card ObscureClone()
+        public static Card Create(string number, IDate date, int cvv, Currency currency)
         {
-            var clone = (Card)MemberwiseClone();
-            clone.Obscure();
-            return clone;
+            //todo: Validate number
+            var instance = new Card
+            {
+                Number = number,
+                Expiry = date,
+                Currency = currency,
+                Cvv = cvv
+            };
+            return instance;
         }
-
-        public void Obscure() => Number = OBSCURE_PART + "-" + Number.Substring(14);
     }
 }

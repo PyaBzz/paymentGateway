@@ -4,11 +4,12 @@ using System.Text.Json.Serialization;
 
 namespace Core
 { //todo: write documentation about doc comments
-    public interface IDate
+    public interface IPassable { bool IsPassed { get; } }
+
+    public interface IDate : IPassable
     {
         int Year { get; }
         int Month { get; }
-        bool IsPassed { get; }
     }
 
     public class Date : IDate
@@ -32,7 +33,7 @@ namespace Core
             }
         }
 
-        public static IDate Create(int year, int month)
+        public static Date Create(int year, int month)
         {
             if (year < MIN_YEAR)
                 throw new ArgumentException($"Value of {nameof(Year)} cannot be less than {MIN_YEAR}. Received: {year}");
