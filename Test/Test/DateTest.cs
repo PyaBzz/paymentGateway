@@ -8,8 +8,9 @@ namespace Test
     public class DateTest
     {
         private const int MIN_YEAR = 1982; //doc: assumption
+
         [Fact]
-        public void Create_SetsProperties()
+        public void Create_InitialisesState()
         {
             var instance = Date.Create(2022, 3);
             Assert.Equal(2022, instance.Year);

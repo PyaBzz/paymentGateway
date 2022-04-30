@@ -14,10 +14,10 @@ namespace Core
 
     public class Date : IDate
     {//doc: immutable
+        private Date() { }
         private const int MIN_YEAR = 1982;
         private const int MIN_MONTH = 1;
         private const int MAX_MONTH = 12;
-        private Date() { }
         public int Year { get; private set; }
         public int Month { get; private set; }
         public bool IsPassed

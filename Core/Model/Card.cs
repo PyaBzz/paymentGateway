@@ -12,7 +12,7 @@ namespace Core
 
     public interface ICard : IExpirable, IObscurable
     {
-        //todo: Calculate Id from Number+Expiry+CVV
+        //todo: Calculate Id from Number+Expiry+CVV why?
         string Number { get; }
         IDate Expiry { get; }
         int Cvv { get; }
@@ -21,6 +21,7 @@ namespace Core
 
     public class Card : ICard
     {//doc: immutable
+        private Card() { }
         private const string OBSCURE_PART = "****-****-****";
         //todo: PIN ?
         public string Number { get; private set; }
