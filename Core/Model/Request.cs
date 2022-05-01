@@ -5,12 +5,16 @@ using System.Text.Json.Serialization;
 namespace Core
 {
     public enum RequestStatus { Received, Invalid, Pending, Declined, Success }
+    public interface ISaveable
+    {
+        int? Id { get; }
+        int Save(IRepository repo); //todo: should you return the saved object?
+    }
 
-    public interface IIdentifiable { int Id { get; set; } }
     public interface IStatusable { RequestStatus Status { get; set; } }
     public interface IValidatable { bool IsValid { get; } }
 
-    public interface IRequestable : IIdentifiable, IStatusable, IValidatable
+    public interface IRequestable : ISaveable, IStatusable, IValidatable
     {
         int MerchantId { get; }
         ICard Card { get; }
@@ -23,7 +27,7 @@ namespace Core
         private const decimal MIN_AMOUNT = 0.5m;
         private const int MAX_AMOUNT = 500;
         private Request() { }
-        public int Id { get; set; }
+        public int? Id { get; private set; }
         public int MerchantId { get; private set; }
         public ICard Card { get; private set; }
         public decimal Amount { get; private set; }
@@ -51,6 +55,13 @@ namespace Core
                     return false;
                 return true;
             }
+        }
+
+        public int Save(IRepository repo)
+        {
+            if (Id == null)
+                Id = repo.Save(this);
+            return Id.Value;
         }
     }
 }

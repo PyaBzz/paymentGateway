@@ -5,19 +5,30 @@ using Moq;
 
 namespace Test
 {
-    public class TransactionTest
+    public class RequestTest
     {
         private const decimal MIN_AMOUNT = 0.5m; //doc: Assumption
-        private const int MAX_AMOUNT = 500; //doc: Assumption
-        private int merchantIdDummy = 7;
-        private decimal amountDummy = 1.23m;
+        private const decimal MAX_AMOUNT = 500m; //doc: Assumption
+        private int merchantIdDummy;
+        private decimal amountDummy;
         private Mock<ICard> cardMocker = new Mock<ICard>();
         private ICard cardMock => cardMocker.Object;
+        private Mock<IRepository> repoMocker = new Mock<IRepository>();
+        private IRepository repoMock => repoMocker.Object;
+        private int requestIdDummy;
+        public RequestTest()
+        {
+            Random rng = new Random(); //todo: randomise dummy values
+            merchantIdDummy = rng.Next(0, int.MaxValue - 200);
+            requestIdDummy = rng.Next(0, int.MaxValue - 200);
+            amountDummy = MIN_AMOUNT + new decimal(rng.NextDouble()) * (MAX_AMOUNT - MIN_AMOUNT);
+        }
 
         [Fact]
         public void Create_InitialisesState()
         {
             var instance = Request.Create(merchantIdDummy, cardMock, amountDummy);
+            Assert.Null(instance.Id);
             Assert.Equal(instance.MerchantId, merchantIdDummy);
             Assert.Equal(instance.Card, cardMock);
             Assert.Equal(instance.Amount, amountDummy);
@@ -58,6 +69,27 @@ namespace Test
         {
             var instance = Request.Create(merchantIdDummy, cardMock, amountDummy);
             Assert.True(instance.IsValid);
+        }
+
+        [Fact]
+        public void Save_SetsId_IfNull()
+        {
+            var instance = Request.Create(merchantIdDummy, cardMock, amountDummy);
+            repoMocker.Setup(x => x.Save(instance)).Returns(requestIdDummy);
+            instance.Save(repoMock);
+            Assert.Equal(requestIdDummy, instance.Id);
+        }
+
+        [Fact]
+        public void Save_RetainsId_IfNotNull()
+        {
+            var instance = Request.Create(merchantIdDummy, cardMock, amountDummy);
+            repoMocker.Setup(x => x.Save(instance)).Returns(requestIdDummy);
+            instance.Save(repoMock);
+            Assert.Equal(requestIdDummy, instance.Id);
+            repoMocker.Setup(x => x.Save(instance)).Returns(requestIdDummy + 1);
+            instance.Save(repoMock);
+            Assert.Equal(requestIdDummy, instance.Id);
         }
     }
 }
