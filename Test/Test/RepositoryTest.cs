@@ -1,44 +1,44 @@
-// using System;
-// using Xunit;
-// using Core;
-// using Moq;
+using System;
+using Xunit;
+using Core;
+using Moq;
 
-// namespace Test
-// {
-//     public class ResponseTest
-//     {
-//         private readonly string cardNo = "1234-5678-8765-4321";
-//         private Card card;
-//         private Order order;
+namespace Test
+{
+    public class RepositoryTest
+    {
+        private readonly FakeRepo<object> instance = new FakeRepo<object>();
 
-//         public ResponseTest()
-//         {
-//             var expiry = new ExpiryDate(2, 4);
-//             card = new Card(cardNo, expiry, Currency.GBP, 777);
-//             order = new Order { Id = 1, MerchantId = 2, Card = card, Amount = 0.5m };
-//         }
+        public RepositoryTest()
+        {
+        }
 
-//         [Fact]
-//         public void Create_Obscures_Card_Number()
-//         {
-//             var response = Response.Create(order, QueryStatus.Resolved);
-//             Assert.True(response.Order.Card.IsObscure);
-//         }
+        [Fact]
+        public void Save_AssignsId_Sequentially()
+        {
+            var item0 = new object();
+            var id0 = instance.Save(item0);
 
-//         [Fact]
-//         public void Create_Leaves_ReferenceType_InputParameters_Intact()
-//         {
-//             var response = Response.Create(order, QueryStatus.Resolved);
-//             Assert.Same(card.Number, cardNo);
-//         }
+            var item1 = new object();
+            var id1 = instance.Save(item1);
 
-//         [Fact]
-//         public void Create_ComposesResponseFromNewObjects()
-//         {
-//             var order = new Mock<IOrder>();
-//             // order.SetupGet(x => x.Card).Returns(card);
-//             var response = Response.Create(order.Object, QueryStatus.Resolved);
-//             Assert.NotSame(order, response.Order);
-//         }
-//     }
-// }
+            Assert.Equal(id1, id0 + 1);
+        }
+
+        [Fact]
+        public void Get_ReturnsNull_IfNotFound()
+        {
+            var item = instance.Get(7);
+            Assert.Null(item);
+        }
+
+        [Fact]
+        public void Get_RetrievesItem()
+        {
+            var item = new object();
+            var id = instance.Save(item);
+            var retrieved = instance.Get(id);
+            Assert.Same(item, retrieved);
+        }
+    }
+}

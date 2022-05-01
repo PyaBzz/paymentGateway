@@ -5,16 +5,16 @@ using System.Text.Json.Serialization;
 namespace Core
 {
     public enum RequestStatus { Received, Invalid, Pending, Declined, Success }
-    public interface ISaveable
+    public interface ISaveable //todo: Should exist? Perhaps declared in higher layers
     {
         int? Id { get; }
-        int Save(IRepository repo); //todo: should you return the saved object?
+        int Save(IRepository<Request> repo); //todo: should you return the saved object?
     }
 
     public interface IStatusable { RequestStatus Status { get; set; } }
     public interface IValidatable { bool IsValid { get; } }
 
-    public interface IRequestable : ISaveable, IStatusable, IValidatable
+    public interface IRequestable : IStatusable, IValidatable
     {
         int MerchantId { get; }
         ICard Card { get; }
@@ -57,7 +57,7 @@ namespace Core
             }
         }
 
-        public int Save(IRepository repo)
+        public int Save(IRepository<Request> repo)
         {
             if (Id == null)
                 Id = repo.Save(this);

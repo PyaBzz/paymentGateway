@@ -13,8 +13,8 @@ namespace Test
         private decimal amountDummy;
         private Mock<ICard> cardMocker = new Mock<ICard>();
         private ICard cardMock => cardMocker.Object;
-        private Mock<IRepository> repoMocker = new Mock<IRepository>();
-        private IRepository repoMock => repoMocker.Object;
+        private Mock<IRepository<Request>> repoMocker = new Mock<IRepository<Request>>();
+        private IRepository<Request> repoMock => repoMocker.Object;
         private int requestIdDummy;
         public RequestTest()
         {

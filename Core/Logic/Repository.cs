@@ -1,22 +1,28 @@
 using System;
+using System.Collections.Generic;
 
 namespace Core
 {
-    public interface IRepository
+    public interface IRepository<T>
     {
-        int Save(Request item);
-        Request Get(int id);
+        int Save(T item);
+        T Get(int id);
     }
 
-    public class RequestRepoFake : IRepository
+    public class FakeRepo<T> : IRepository<T> //doc: why Fake
     {
-        public int Save(Request item)
+        private readonly Dictionary<int, T> items = new Dictionary<int, T>();
+        public int Save(T item)
         {
-            throw new NotImplementedException();
+            var nextId = items.Count;
+            items.Add(nextId, item);
+            return nextId;
         }
-        public Request Get(int id)
+        public T Get(int id)
         {
-            throw new NotImplementedException();
+            if (items.ContainsKey(id))
+                return items[id];
+            return default;
         }
     }
 }
