@@ -10,7 +10,7 @@ namespace Core
 
     public interface IObscurable { ICard GetObscureClone(); }
 
-    public interface ICard : IExpirable, IObscurable
+    public interface ICard : IExpirable
     {
         //todo: Calculate Id from Number+Expiry+CVV why?
         string Number { get; }
@@ -19,7 +19,7 @@ namespace Core
         Currency Currency { get; }
     }
 
-    public class Card : ICard
+    public class Card : ICard, IObscurable
     {//doc: immutable
         private Card() { }
         private const string OBSCURE_PART = "****-****-****";

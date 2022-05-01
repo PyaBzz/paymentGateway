@@ -14,14 +14,14 @@ namespace Core
     public interface IStatusable { RequestStatus Status { get; set; } }
     public interface IValidatable { bool IsValid { get; } }
 
-    public interface IRequestable : IStatusable, IValidatable
+    public interface IRequestable : IValidatable
     {
         int MerchantId { get; }
         ICard Card { get; }
         Decimal Amount { get; }
     }
 
-    public class Request : IRequestable
+    public class Request : IRequestable, IStatusable
     { //doc: almost immutable
         //todo: read boundary values from config
         private const decimal MIN_AMOUNT = 0.5m;

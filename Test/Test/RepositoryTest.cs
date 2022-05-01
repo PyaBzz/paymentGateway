@@ -9,10 +9,6 @@ namespace Test
     {
         private readonly FakeRepo<object> instance = new FakeRepo<object>();
 
-        public RepositoryTest()
-        {
-        }
-
         [Fact]
         public void Save_AssignsId_Sequentially()
         {
