@@ -7,6 +7,6 @@ namespace Core
     public class Query
     {
         public int MerchantId { get; set; }
-        public int PaymentId { get; set; }
+        public int RequestId { get; set; }
     }
 }

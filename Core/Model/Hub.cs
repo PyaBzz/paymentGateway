@@ -23,7 +23,7 @@ namespace Core
         {//doc: After setting request status no need to save because of in-memory repo
             if (request.IsValid)
                 request.IsSuccess = bank.Pay(request);
-            return Response.Create(request);
+            return new Response(request);
         }
     }
 }

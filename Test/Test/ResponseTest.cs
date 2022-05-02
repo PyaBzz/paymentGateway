@@ -20,7 +20,7 @@ namespace Test
             requestMocker.SetupGet(x => x.Id).Returns(13);
             requestMocker.SetupGet(x => x.IsValid).Returns(false);
 
-            var result = Response.Create(requestMock);
+            var result = new Response(requestMock);
             Assert.Equal(Status.Invalid, result.Status);
         }
 
@@ -31,10 +31,10 @@ namespace Test
             requestMocker.SetupGet(x => x.IsValid).Returns(false);
 
             requestMocker.SetupGet(x => x.IsSuccess).Returns(true);
-            var result0 = Response.Create(requestMock);
+            var result0 = new Response(requestMock);
 
             requestMocker.SetupGet(x => x.IsSuccess).Returns(false);
-            var result1 = Response.Create(requestMock);
+            var result1 = new Response(requestMock);
 
             Assert.Equal(result0.Status, result1.Status);
         }
@@ -45,7 +45,7 @@ namespace Test
             requestMocker.SetupGet(x => x.Id).Returns(13);
             requestMocker.SetupGet(x => x.IsValid).Returns(true);
             requestMocker.SetupGet(x => x.IsSuccess).Returns(true);
-            var result = Response.Create(requestMock);
+            var result = new Response(requestMock);
             Assert.Equal(Status.Success, result.Status);
         }
 
@@ -55,7 +55,7 @@ namespace Test
             requestMocker.SetupGet(x => x.Id).Returns(13);
             requestMocker.SetupGet(x => x.IsValid).Returns(true);
             requestMocker.SetupGet(x => x.IsSuccess).Returns(false);
-            var result = Response.Create(requestMock);
+            var result = new Response(requestMock);
             Assert.Equal(Status.Declined, result.Status);
         }
     }
