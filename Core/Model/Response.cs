@@ -4,20 +4,26 @@ using System.Text.Json.Serialization;
 
 namespace Core
 {
-    public enum QueryStatus { Denied, Resolved }
-
+    public enum Status { Invalid, Success, Declined }
     public class Response
-    {
-        // public IOrder Order { get; private set; }
-        // public QueryStatus Status { get; private set; }
-        // private Response() { }
+    {//doc: This is a simple Dto with built-in factory method
+        private Response() { }
+        public Status Status { get; private set; }
+        public int Id { get; private set; }
 
-        // public static Response Create(IOrder order, QueryStatus status)
-        // {
-        //     var instance = new Response();
-        //     instance.Order = order.ObscureClone();
-        //     instance.Status = status;
-        //     return instance;
-        // }
+        public static Response Create(IRequestable req)
+        {
+            var instance = new Response();
+            instance.Id = req.Id;
+            if (req.IsValid == false)
+                instance.Status = Status.Invalid;
+            else
+            {
+                if (req.IsSuccess == null)
+                    throw new ArgumentException("Unprocessed request!");
+                instance.Status = req.IsSuccess.Value ? Status.Success : Status.Declined;
+            }
+            return instance;
+        }
     }
 }

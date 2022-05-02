@@ -8,48 +8,49 @@ namespace Test
     public class HubTest
     {
         private readonly Hub instance;
-        private Mock<IRequestable> requestMocker = new Mock<IRequestable>();
-        private IRequestable requestMock => requestMocker.Object;
+        private readonly Mock<IRequestable> requestMocker = new Mock<IRequestable>();
+        private IRequestable requestMock => requestMocker.Object; //todo: drop Mock from all mock object names
+        private readonly Mock<IBank> bankMocker = new Mock<IBank>();
+        private IBank bankMock => bankMocker.Object;
 
         public HubTest()
         {
-            var bank = new FakeBank();
-            instance = new Hub(bank);
+            instance = new Hub(bankMock);
         }
 
         [Fact]
-        public void Forward_ReturnsInvalidStatus_IfInvalidRequest()
+        public void Process_ReturnsInvalidStatus_IfRequestIsInvalid()
         {
             requestMocker.SetupGet(x => x.IsValid).Returns(false);
-            var result = instance.Forward(requestMock);
-            Assert.Equal(RequestStatus.Invalid, result);
+            var response = instance.Process(requestMock);
+            Assert.Equal(Status.Invalid, response.Status);
         }
 
-        [Fact]
-        public void Forward_OnlyAcceptsFreshRequests()
-        {
-            requestMocker.SetupGet(x => x.Status).Returns(RequestStatus.Invalid);
-            Assert.Throws<ArgumentException>(
-                () => instance.Forward(requestMock)
-            );
-            requestMocker.SetupGet(x => x.Status).Returns(RequestStatus.Declined);
-            Assert.Throws<ArgumentException>(
-                () => instance.Forward(requestMock)
-            );
-            requestMocker.SetupGet(x => x.Status).Returns(RequestStatus.Pending);
-            Assert.Throws<ArgumentException>(
-                () => instance.Forward(requestMock)
-            );
-            requestMocker.SetupGet(x => x.Status).Returns(RequestStatus.Success);
-            Assert.Throws<ArgumentException>(
-                () => instance.Forward(requestMock)
-            );
-        }
+        // [Fact]
+        // public void Process_OnlyAcceptsFreshRequests()
+        // {
+        //     requestMocker.SetupGet(x => x.Status).Returns(Status.Invalid);
+        //     Assert.Throws<ArgumentException>(
+        //         () => instance.Process(requestMock)
+        //     );
+        //     requestMocker.SetupGet(x => x.Status).Returns(Status.Declined);
+        //     Assert.Throws<ArgumentException>(
+        //         () => instance.Process(requestMock)
+        //     );
+        //     requestMocker.SetupGet(x => x.Status).Returns(Status.Pending);
+        //     Assert.Throws<ArgumentException>(
+        //         () => instance.Process(requestMock)
+        //     );
+        //     requestMocker.SetupGet(x => x.Status).Returns(Status.Success);
+        //     Assert.Throws<ArgumentException>(
+        //         () => instance.Process(requestMock)
+        //     );
+        // }
 
-        [Fact]
-        public void Forward_SavesRequest()
-        {
+        // [Fact]
+        // public void Process_ForwardsToBank()
+        // {
 
-        }
+        // }
     }
 }

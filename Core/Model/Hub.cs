@@ -2,10 +2,9 @@ using System;
 
 namespace Core
 {
-    public enum RequestStatus { Received, Invalid, Pending, Declined, Success }
     public interface IHub
     {
-        RequestStatus Forward(IRequestable request);
+        Response Process(IRequestable request);
     }
 
     public class Hub : IHub //todo: Find a better name for this responsibility
@@ -20,11 +19,11 @@ namespace Core
             bank = b;
         }
 
-        public RequestStatus Forward(IRequestable request)
-        {
-            if (request.Status != RequestStatus.Received)
-                throw new ArgumentException("Request must be in 'Received' state");
-            return RequestStatus.Invalid;
+        public Response Process(IRequestable request)
+        {//doc: After setting request status no need to save because of in-memory repo
+            if (request.IsValid)
+                request.IsSuccess = bank.Pay(request);
+            return Response.Create(request);
         }
     }
 }

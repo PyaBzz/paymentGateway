@@ -33,7 +33,7 @@ namespace Test
             Assert.Equal(instance.MerchantId, merchantIdDummy);
             Assert.Equal(instance.Card, cardMock);
             Assert.Equal(instance.Amount, amountDummy);
-            Assert.Equal(instance.Status, RequestStatus.Received);
+            Assert.True(instance.IsValid);
         }
 
         [Fact]
