@@ -4,24 +4,18 @@ using System.Text.Json.Serialization;
 
 namespace Core
 {
-    public enum RequestStatus { Received, Invalid, Pending, Declined, Success }
-    public interface ISaveable //todo: Should exist? Perhaps declared in higher layers
-    {
-        int? Id { get; }
-        int Save(IRepository<Request> repo); //todo: should you return the saved object?
-    }
-
     public interface IStatusable { RequestStatus Status { get; set; } }
     public interface IValidatable { bool IsValid { get; } }
 
-    public interface IRequestable : IValidatable
+    //todo: move interface definition to consuming code!
+    public interface IRequestable : IValidatable, IStatusable
     {
         int MerchantId { get; }
         ICard Card { get; }
         Decimal Amount { get; }
     }
 
-    public class Request : IRequestable, IStatusable
+    public class Request : IRequestable
     { //doc: almost immutable
         //todo: read boundary values from config
         private const decimal MIN_AMOUNT = 0.5m;
@@ -33,13 +27,14 @@ namespace Core
         public decimal Amount { get; private set; }
         public RequestStatus Status { get; set; }
 
-        public static Request Create(int merchantId, ICard card, decimal amount)
+        public static Request Create(int merchantId, ICard card, decimal amount, IRepository<Request> repo)
         {
             var instance = new Request();
             instance.MerchantId = merchantId;
             instance.Card = card;
             instance.Amount = amount;
             instance.Status = RequestStatus.Received;
+            instance.Id = repo.Save(instance); //doc: Encapsulate all state changes including Id-setter
             return instance;
         }
 
@@ -55,13 +50,6 @@ namespace Core
                     return false;
                 return true;
             }
-        }
-
-        public int Save(IRepository<Request> repo)
-        {
-            if (Id == null)
-                Id = repo.Save(this);
-            return Id.Value;
         }
     }
 }

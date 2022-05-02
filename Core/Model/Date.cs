@@ -35,6 +35,8 @@ namespace Core
 
         public static Date Create(int year, int month)
         {
+            //doc: assumption some requests that are obviously invalid dont even save in db
+            //doc: assumption parts of the business validation take place upon creation
             if (year < MIN_YEAR)
                 throw new ArgumentException($"Value of {nameof(Year)} cannot be less than {MIN_YEAR}. Received: {year}");
             if (month < MIN_MONTH || month > MAX_MONTH)

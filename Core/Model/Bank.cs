@@ -4,7 +4,7 @@ namespace Core
     {
         //todo: add method signatures
     }
-    public class BankMock : IBank
+    public class FakeBank : IBank
     {
         //todo: Allows us to do the actual retrieval of money from the shopper’s card and payout
         // to the merchant. It also performs some validation of the card information and then sends the
