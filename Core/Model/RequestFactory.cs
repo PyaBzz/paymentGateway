@@ -4,7 +4,7 @@ public interface IRequestFactory
     Request Make(Dto dto);
 }
 
-public class RequestFactory
+public class RequestFactory : IRequestFactory
 {
     private readonly IRepository<Request> repo;
     public RequestFactory(IRepository<Request> r)

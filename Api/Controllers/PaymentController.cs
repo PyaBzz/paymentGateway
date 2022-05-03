@@ -14,27 +14,31 @@ namespace Api.Controllers
     {
         private readonly IRequestFactory requestFactory;
         private readonly IResponseFactory responseFactory;
+        private readonly IReportFactory reportFactory;
 
         //doc: Log for auditing
-        public PaymentController(IRequestFactory requester, IResponseFactory responser)
+        public PaymentController(
+            IRequestFactory requester,
+            IResponseFactory responser,
+            IReportFactory reporter)
         {
             requestFactory = requester;
             responseFactory = responser;
-        }
-
-        [HttpGet]
-        public string Get([FromBody] Query query)
-        {
-            var report = ReportFactory.
-            return $"Some request with Id of {query.RequestId} and merchant Id of {query.MerchantId}";
+            reportFactory = reporter;
         }
 
         [HttpPost]
-        public string Post([FromBody] Dto dto)
+        public Response Post([FromBody] Dto dto)
         {
             var request = requestFactory.Make(dto);
             var response = responseFactory.Process(request);
             return response;
+        }
+
+        [HttpGet]
+        public Report Get([FromBody] Query query)
+        {
+            return reportFactory.Make(query);
         }
     }
 }

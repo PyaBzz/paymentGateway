@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Core;
 
 namespace Api
 {
@@ -25,6 +26,12 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            // services.AddSingleton<IRepository<Request>, FakeRepo<Request>>(); //doc: Singleton to retain its memory
+            services.AddSingleton(typeof(IRepository<>), typeof(FakeRepo<>)); //doc: Singleton to retain its memory
+            services.AddTransient<IBank, FakeBank>();
+            services.AddTransient<IRequestFactory, RequestFactory>();
+            services.AddTransient<IResponseFactory, ResponseFactory>();
+            services.AddTransient<IReportFactory, ReportFactory>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
