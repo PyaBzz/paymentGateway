@@ -21,10 +21,11 @@ namespace Core
         public Report Make(Query query)
         {
             var request = repo.Get(query.RequestId);
-            if (query.MerchantId == request.MerchantId)
-                return Create(request);
-            else
+            if (request == null)
                 return CreateBlank();
+            if (query.MerchantId != request.MerchantId)
+                return CreateBlank();
+            return Create(request);
         }
 
         private Report Create(IRequestable req)

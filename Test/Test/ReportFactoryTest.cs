@@ -87,6 +87,15 @@ namespace Test
         }
 
         [Fact]
+        public void Make_ReturnsBlank_IfRequestNotFound()
+        {
+            repoMocker.Setup(x => x.Get(It.IsAny<int>())).Returns((IRequestable)null);
+            var query = new Query { MerchantId = merchantIdDummy + 1, RequestId = requestIdDummy };
+            var result = instance.Make(query);
+            Assert.Equal(result.Card_Number, BLANK_CARD_NO);
+        }
+
+        [Fact]
         public void Make_ReturnsBlank_IfRequestNotBelongToMerchant()
         {
             requestMocker.SetupGet(x => x.IsValid).Returns(true);
