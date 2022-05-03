@@ -6,6 +6,7 @@ namespace Core
     }
     public class FakeBank : IBank
     {
+        private const int IMAGINARY_ACCOUNT_BALANCE = 200;
         //todo: Does the actual transaction.
         // It also performs some validation of the card information and then sends the
         // payment details to the appropriate 3rd party organization for processing.
@@ -14,7 +15,7 @@ namespace Core
         // Build a bank simulator to test your payment gateway API.
         public bool Pay(IRequestable request)
         {
-            return false;
+            return request.Amount <= 200; //doc: imaginary
         }
     }
 }
