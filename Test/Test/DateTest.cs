@@ -8,6 +8,8 @@ namespace Test
     public class DateTest
     { //doc: randomise test data like RequestTest
         private const int MIN_YEAR = 1982; //doc: assumption
+        private const int MIN_MONTH = 1;
+        private const int MAX_MONTH = 12;
 
         [Fact]
         public void Create_InitialisesState()
@@ -18,27 +20,24 @@ namespace Test
         }
 
         [Fact]
-        public void Create_ChecksLowerBoundOfYear()
+        public void IsValid_IsFalse_IfYearBelowRange()
         {
-            Assert.Throws<ArgumentException>(
-                () => Date.Create(MIN_YEAR - 1, 3)
-            );
+            var instance = Date.Create(MIN_YEAR - 1, 3);
+            Assert.False(instance.IsValid);
         }
 
         [Fact]
-        public void Create_ChecksLowerBoundOfMonth()
+        public void IsValid_ChecksLowerBoundOfMonth()
         {
-            Assert.Throws<ArgumentException>(
-                () => Date.Create(DateTime.Now.Year, 0)
-            );
+            var instance = Date.Create(DateTime.Now.Year, MIN_MONTH - 1);
+            Assert.False(instance.IsValid);
         }
 
         [Fact]
-        public void Create_ChecksUpperBoundOfMonth()
+        public void IsValid_ChecksUpperBoundOfMonth()
         {
-            Assert.Throws<ArgumentException>(
-                () => Date.Create(DateTime.Now.Year, 13)
-            );
+            var instance = Date.Create(DateTime.Now.Year, MAX_MONTH + 1);
+            Assert.False(instance.IsValid);
         }
 
         [Fact]
@@ -46,7 +45,7 @@ namespace Test
         {
             var lastMonth = DateTime.Now.AddMonths(-1);
             var instance = Date.Create(lastMonth.Year, lastMonth.Month);
-            Assert.Equal(true, instance.IsPassed);
+            Assert.True(instance.IsPassed);
         }
 
         [Fact]
@@ -54,7 +53,7 @@ namespace Test
         {
             var now = DateTime.Now;
             var instance = Date.Create(now.Year, now.Month);
-            Assert.Equal(false, instance.IsPassed);
+            Assert.False(instance.IsPassed);
         }
 
         [Fact]
@@ -62,7 +61,7 @@ namespace Test
         {
             var nextMonth = DateTime.Now.AddMonths(+1);
             var instance = Date.Create(nextMonth.Year, nextMonth.Month);
-            Assert.Equal(false, instance.IsPassed);
+            Assert.False(instance.IsPassed);
         }
     }
 }

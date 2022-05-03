@@ -44,7 +44,7 @@ namespace Core
             {
                 if (MerchantId < 0)
                     return false;
-                if (Card.IsExpired)
+                if (Card.IsValid == false)
                     return false;
                 if (Amount < MIN_AMOUNT || Amount > MAX_AMOUNT)
                     return false;

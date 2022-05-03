@@ -6,9 +6,7 @@ namespace Core
 {
     public enum Currency { GBP, USD, EUR } // [EnumMember(Value = "GBP")]
 
-    public interface IExpirable { bool IsExpired { get; } }
-
-    public interface ICard : IExpirable
+    public interface ICard : IValidatable
     {
         string Number { get; }
         IDate Expiry { get; }
@@ -18,6 +16,8 @@ namespace Core
 
     public class Card : ICard
     {//doc: immutable
+        private const int MIN_CVV = 100; //doc: read from config
+        private const int MAX_CVV = 999; //doc: read from config
         private Card() { }
         //todo: PIN ?
         public string Number { get; private set; }
@@ -25,7 +25,6 @@ namespace Core
         [JsonConverter(typeof(JsonStringEnumConverter))] //todo: could apply to the enum itself?
         public int Cvv { get; private set; }
         public Currency Currency { get; private set; }
-        public bool IsExpired => Expiry.IsPassed;
 
         public static Card Create(string number, IDate date, int cvv, Currency currency)
         {
@@ -38,6 +37,18 @@ namespace Core
                 Cvv = cvv
             };
             return instance;
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                if (Expiry.IsValid == false || Expiry.IsPassed)
+                    return false;
+                if (Cvv < MIN_CVV || Cvv > MAX_CVV)
+                    return false;
+                return true;
+            }
         }
     }
 }

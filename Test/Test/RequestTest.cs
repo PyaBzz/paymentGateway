@@ -22,6 +22,7 @@ namespace Test
             merchantIdDummy = rng.Next(0, int.MaxValue - 200);
             requestIdDummy = rng.Next(0, int.MaxValue - 200);
             amountDummy = MIN_AMOUNT + new decimal(rng.NextDouble()) * (MAX_AMOUNT - MIN_AMOUNT);
+            cardMocker.SetupGet(x => x.IsValid).Returns(true);
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace Test
         [Fact]
         public void IsValid_IsFalse_IfCardExpired()
         {
-            cardMocker.SetupGet(x => x.IsExpired).Returns(true);
+            cardMocker.SetupGet(x => x.IsValid).Returns(false);
             var instance = Request.Create(merchantIdDummy, cardMock, amountDummy, repoMock);
             Assert.False(instance.IsValid);
         }

@@ -6,7 +6,7 @@ namespace Core
 {
     public interface IPassable { bool IsPassed { get; } }
 
-    public interface IDate : IPassable
+    public interface IDate : IPassable, IValidatable
     {
         int Year { get; }
         int Month { get; }
@@ -37,14 +37,22 @@ namespace Core
         {
             //doc: assumption some requests that are obviously invalid dont even save in db
             //doc: assumption parts of the business validation take place upon creation
-            if (year < MIN_YEAR)
-                throw new ArgumentException($"Value of {nameof(Year)} cannot be less than {MIN_YEAR}. Received: {year}");
-            if (month < MIN_MONTH || month > MAX_MONTH)
-                throw new ArgumentException($"Value of {nameof(Month)} need to be between {MIN_MONTH} and {MAX_MONTH}: Received: {month}");
             var instance = new Date();
             instance.Year = year;
             instance.Month = month;
             return instance;
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                if (Year < MIN_YEAR)
+                    return false;
+                if (Month < MIN_MONTH || Month > MAX_MONTH)
+                    return false;
+                return true;
+            }
         }
     }
 }
