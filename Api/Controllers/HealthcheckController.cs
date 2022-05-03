@@ -11,7 +11,7 @@ namespace Api.Controllers
         [HttpGet]
         public string Get()
         {
-            return "OK"; //todo: decide what to return if unhealthy
+            return "OK"; //doc: decide what to return if unhealthy
         }
     }
 }

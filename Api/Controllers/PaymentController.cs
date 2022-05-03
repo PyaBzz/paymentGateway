@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Model;
+using Core;
 
 namespace Api.Controllers
 {
@@ -12,23 +12,29 @@ namespace Api.Controllers
     [Route("[controller]")]
     public class PaymentController : ControllerBase
     {
-        private readonly ILogger<PaymentController> _logger; //todo: Think something for this
+        private readonly IRequestFactory requestFactory;
+        private readonly IResponseFactory responseFactory;
 
-        public PaymentController(ILogger<PaymentController> logger)
+        //doc: Log for auditing
+        public PaymentController(IRequestFactory requester, IResponseFactory responser)
         {
-            _logger = logger;
+            requestFactory = requester;
+            responseFactory = responser;
         }
 
         [HttpGet]
         public string Get([FromBody] Query query)
         {
-            return $"Some order with payment Id of {query.PaymentId} and merchant Id of {query.MerchantId}";
+            var report = ReportFactory.
+            return $"Some request with Id of {query.RequestId} and merchant Id of {query.MerchantId}";
         }
 
         [HttpPost]
-        public string Post([FromBody] Order order)
+        public string Post([FromBody] Dto dto)
         {
-            return "Posted";
+            var request = requestFactory.Make(dto);
+            var response = responseFactory.Process(request);
+            return response;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Core
     public class FakeBank : IBank
     {
         private const int IMAGINARY_ACCOUNT_BALANCE = 200;
-        //todo: Does the actual transaction.
+        //doc: Does the actual transaction.
         // It also performs some validation of the card information and then sends the
         // payment details to the appropriate 3rd party organization for processing.
         // Simulating the bank

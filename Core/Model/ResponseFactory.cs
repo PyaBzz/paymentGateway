@@ -7,9 +7,9 @@ namespace Core
         Response Process(IRequestable request);
     }
 
-    public class ResponseFactory : IResponseFactory //todo: Find a better name for this responsibility
+    public class ResponseFactory : IResponseFactory
     {
-        // todo: Merchant submits a request with fields such as:
+        // doc: Merchant submits a request with fields such as:
         // card number, expiry month/date, amount, currency, and cvv.
         // validate request, store card information, forward req to bank, get response
         // Return either a successful or unsuccessful response

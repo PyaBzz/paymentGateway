@@ -9,7 +9,7 @@ namespace Test
     {
         private readonly ResponseFactory instance;
         private readonly Mock<IRequestable> requestMocker = new Mock<IRequestable>();
-        private IRequestable requestMock => requestMocker.Object; //todo: drop Mock from all mock object names
+        private IRequestable requestMock => requestMocker.Object;
         private readonly Mock<IBank> bankMocker = new Mock<IBank>();
         private IBank bankMock => bankMocker.Object;
 

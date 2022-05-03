@@ -3,14 +3,13 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace Core
-{ //todo: write documentation about doc comments
+{
     public enum Currency { GBP, USD, EUR } // [EnumMember(Value = "GBP")]
 
     public interface IExpirable { bool IsExpired { get; } }
 
     public interface ICard : IExpirable
     {
-        //todo: Calculate Id from Number+Expiry+CVV why?
         string Number { get; }
         IDate Expiry { get; }
         int Cvv { get; }

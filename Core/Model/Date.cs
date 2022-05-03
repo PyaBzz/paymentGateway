@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace Core
-{ //todo: write documentation about doc comments
+{
     public interface IPassable { bool IsPassed { get; } }
 
     public interface IDate : IPassable

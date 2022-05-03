@@ -7,7 +7,6 @@ namespace Core
     public interface IValidatable { bool IsValid { get; } }
     public interface ISuccessible { bool? IsSuccess { get; set; } }
 
-    //todo: move interface definition to consuming code!
     public interface IRequestable : IValidatable, ISuccessible
     {
         int Id { get; }
@@ -18,8 +17,7 @@ namespace Core
 
     public class Request : IRequestable
     { //doc: almost immutable
-        //todo: read boundary values from config
-        private const decimal MIN_AMOUNT = 0.5m;
+        private const decimal MIN_AMOUNT = 0.5m; //doc: read boundary values from config
         private const int MAX_AMOUNT = 500;
         private Request() { }
         public int Id { get; private set; }
