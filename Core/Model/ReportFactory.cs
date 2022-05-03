@@ -4,7 +4,7 @@ namespace Core
 {
     public interface IReportFactory
     {
-        Report Make(Query query);
+        Report Make(Query q, IRequestable request);
     }
     public class ReportFactory : IReportFactory
     {
@@ -13,17 +13,11 @@ namespace Core
         // status code which indicates the result of the payment.
         private const string OBSCURE_PART = "****-****-****";
         private const string BLANK_CARD_NO = "-";
-        private readonly IRepository<IRequestable> repo;
-        public ReportFactory(IRepository<IRequestable> r)
+        public Report Make(Query q, IRequestable request)
         {
-            repo = r;
-        }
-        public Report Make(Query query)
-        {
-            var request = repo.Get(query.RequestId);
             if (request == null)
                 return CreateBlank();
-            if (query.MerchantId != request.MerchantId)
+            if (q.MerchantId != request.MerchantId)
                 return CreateBlank();
             return Create(request);
         }

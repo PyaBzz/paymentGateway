@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Core
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Status { Invalid, Success, Declined }
     public class Response
     {//doc: This is a simple immutable Dto

@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Core
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Currency { GBP, USD, EUR } // [EnumMember(Value = "GBP")]
 
     public interface ICard : IValidatable
@@ -22,7 +23,6 @@ namespace Core
         //todo: PIN ?
         public string Number { get; private set; }
         public IDate Expiry { get; private set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))] //todo: could apply to the enum itself?
         public int Cvv { get; private set; }
         public Currency Currency { get; private set; }
 

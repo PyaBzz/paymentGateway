@@ -14,8 +14,6 @@ namespace Test
         private const int merchantIdDummy = 1;
         private readonly Mock<IRequestable> requestMocker = new Mock<IRequestable>();
         private IRequestable requestMock => requestMocker.Object;
-        private Mock<IRepository<IRequestable>> repoMocker = new Mock<IRepository<IRequestable>>();
-        private IRepository<IRequestable> repoMock => repoMocker.Object;
         private ReportFactory instance;
         public ReportFactoryTest()
         {
@@ -28,8 +26,7 @@ namespace Test
             requestMocker.SetupGet(x => x.Card.Expiry.Year).Returns(2023);
             requestMocker.SetupGet(x => x.Card.Expiry.Month).Returns(5);
 
-            repoMocker.Setup(x => x.Get(It.IsAny<int>())).Returns(requestMock);
-            instance = new ReportFactory(repoMock);
+            instance = new ReportFactory();
         }
 
         [Fact]
@@ -37,7 +34,7 @@ namespace Test
         {
             requestMocker.SetupGet(x => x.IsValid).Returns(false);
             var query = new Query { MerchantId = merchantIdDummy, RequestId = requestIdDummy };
-            var result = instance.Make(query);
+            var result = instance.Make(query, requestMock);
             Assert.Equal(Status.Invalid, result.Status);
         }
 
@@ -48,10 +45,10 @@ namespace Test
             var query = new Query { MerchantId = merchantIdDummy, RequestId = requestIdDummy };
 
             requestMocker.SetupGet(x => x.IsSuccess).Returns(true);
-            var result0 = instance.Make(query);
+            var result0 = instance.Make(query, requestMock);
 
             requestMocker.SetupGet(x => x.IsSuccess).Returns(false);
-            var result1 = instance.Make(query);
+            var result1 = instance.Make(query, requestMock);
 
             Assert.Equal(result0.Status, result1.Status);
         }
@@ -62,7 +59,7 @@ namespace Test
             requestMocker.SetupGet(x => x.IsValid).Returns(true);
             requestMocker.SetupGet(x => x.IsSuccess).Returns(true);
             var query = new Query { MerchantId = merchantIdDummy, RequestId = requestIdDummy };
-            var result = instance.Make(query);
+            var result = instance.Make(query, requestMock);
             Assert.Equal(Status.Success, result.Status);
         }
 
@@ -72,7 +69,7 @@ namespace Test
             requestMocker.SetupGet(x => x.IsValid).Returns(true);
             requestMocker.SetupGet(x => x.IsSuccess).Returns(false);
             var query = new Query { MerchantId = merchantIdDummy, RequestId = requestIdDummy };
-            var result = instance.Make(query);
+            var result = instance.Make(query, requestMock);
             Assert.Equal(Status.Declined, result.Status);
         }
 
@@ -82,16 +79,15 @@ namespace Test
             requestMocker.SetupGet(x => x.IsValid).Returns(true);
             requestMocker.SetupGet(x => x.IsSuccess).Returns(true);
             var query = new Query { MerchantId = merchantIdDummy, RequestId = requestIdDummy };
-            var result = instance.Make(query);
+            var result = instance.Make(query, requestMock);
             Assert.Equal(result.Card_Number.Substring(0, 14), OBSCURE_PART);
         }
 
         [Fact]
         public void Make_ReturnsBlank_IfRequestNotFound()
         {
-            repoMocker.Setup(x => x.Get(It.IsAny<int>())).Returns((IRequestable)null);
             var query = new Query { MerchantId = merchantIdDummy + 1, RequestId = requestIdDummy };
-            var result = instance.Make(query);
+            var result = instance.Make(query, null);
             Assert.Equal(result.Card_Number, BLANK_CARD_NO);
         }
 
@@ -101,7 +97,7 @@ namespace Test
             requestMocker.SetupGet(x => x.IsValid).Returns(true);
             requestMocker.SetupGet(x => x.IsSuccess).Returns(true);
             var query = new Query { MerchantId = merchantIdDummy + 1, RequestId = requestIdDummy };
-            var result = instance.Make(query);
+            var result = instance.Make(query, requestMock);
             Assert.Equal(result.Card_Number, BLANK_CARD_NO);
         }
     }

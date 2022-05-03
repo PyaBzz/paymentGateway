@@ -15,16 +15,19 @@ namespace Api.Controllers
         private readonly IRequestFactory requestFactory;
         private readonly IResponseFactory responseFactory;
         private readonly IReportFactory reportFactory;
+        private readonly IRepository<Request> requestRepo;
 
         //doc: Log for auditing
         public PaymentController(
             IRequestFactory requester,
             IResponseFactory responser,
-            IReportFactory reporter)
+            IReportFactory reporter,
+            IRepository<Request> repo)
         {
             requestFactory = requester;
             responseFactory = responser;
             reportFactory = reporter;
+            requestRepo = repo;
         }
 
         [HttpPost]
@@ -38,7 +41,8 @@ namespace Api.Controllers
         [HttpGet]
         public Report Get([FromBody] Query query)
         {
-            return reportFactory.Make(query);
+            var request = requestRepo.Get(query.RequestId);
+            return reportFactory.Make(query, request);
         }
     }
 }
