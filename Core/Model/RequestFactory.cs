@@ -1,13 +1,13 @@
 using Core;
-public interface IFactory
+public interface IRequestFactory
 {
     Request Make(Dto dto);
 }
 
-public class Factory
+public class RequestFactory
 {
     private readonly IRepository<Request> repo;
-    public Factory(IRepository<Request> r)
+    public RequestFactory(IRepository<Request> r)
     {
         repo = r;
     }

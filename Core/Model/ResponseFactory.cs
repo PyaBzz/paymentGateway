@@ -2,19 +2,19 @@ using System;
 
 namespace Core
 {
-    public interface IHub
+    public interface IResponseFactory
     {
         Response Process(IRequestable request);
     }
 
-    public class Hub : IHub //todo: Find a better name for this responsibility
+    public class ResponseFactory : IResponseFactory //todo: Find a better name for this responsibility
     {
         // todo: Merchant submits a request with fields such as:
         // card number, expiry month/date, amount, currency, and cvv.
         // validate request, store card information, forward req to bank, get response
         // Return either a successful or unsuccessful response
         private readonly IBank bank;
-        public Hub(IBank b)
+        public ResponseFactory(IBank b)
         {
             bank = b;
         }

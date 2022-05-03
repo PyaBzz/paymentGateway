@@ -30,6 +30,8 @@ namespace Core
 
         public static Request Create(int merchantId, ICard card, decimal amount, IRepository<Request> repo)
         {
+            //doc: Factory method because the object state is mostly readonly from outside also
+            // In real life repository operations are async which cannot take place in constructor
             var instance = new Request();
             instance.MerchantId = merchantId;
             instance.Card = card;

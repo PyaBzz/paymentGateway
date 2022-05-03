@@ -5,14 +5,14 @@ using Moq;
 
 namespace Test
 {
-    public class FactoryTest
+    public class RequestFactoryTest
     {
         private readonly IRepository<Request> repo;
-        private readonly Factory instance;
-        public FactoryTest()
+        private readonly RequestFactory instance;
+        public RequestFactoryTest()
         {
             repo = new FakeRepo<Request>();
-            instance = new Factory(repo);
+            instance = new RequestFactory(repo);
         }
         //todo: Randomise parameters
         private readonly Dto dto = new Dto

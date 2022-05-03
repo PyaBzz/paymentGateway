@@ -5,17 +5,17 @@ using Moq;
 
 namespace Test
 {
-    public class HubTest
+    public class ResponseFactoryTest
     {
-        private readonly Hub instance;
+        private readonly ResponseFactory instance;
         private readonly Mock<IRequestable> requestMocker = new Mock<IRequestable>();
         private IRequestable requestMock => requestMocker.Object; //todo: drop Mock from all mock object names
         private readonly Mock<IBank> bankMocker = new Mock<IBank>();
         private IBank bankMock => bankMocker.Object;
 
-        public HubTest()
+        public ResponseFactoryTest()
         {
-            instance = new Hub(bankMock);
+            instance = new ResponseFactory(bankMock);
         }
 
         [Fact]
