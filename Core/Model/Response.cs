@@ -6,21 +6,14 @@ namespace Core
 {
     public enum Status { Invalid, Success, Declined }
     public class Response
-    {//doc: This is a simple Dto with built-in factory method
+    {//doc: This is a simple immutable Dto
         public Status Status { get; private set; }
         public int Id { get; private set; }
 
-        public Response(IRequestable req)
+        public Response(int id, Status status)
         {
-            this.Id = req.Id;
-            if (req.IsValid == false)
-                this.Status = Status.Invalid;
-            else
-            {
-                if (req.IsSuccess == null)
-                    throw new ArgumentException("Unprocessed request!");
-                this.Status = req.IsSuccess.Value ? Status.Success : Status.Declined;
-            }
+            Id = id;
+            Status = status;
         }
     }
 }
