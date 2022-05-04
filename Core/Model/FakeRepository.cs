@@ -9,7 +9,7 @@ namespace Core
         T Get(int id);
     }
 
-    public class FakeRepo<T> : IRepository<T> //doc: why Fake
+    public class FakeRepo<T> : IRepository<T>
     {
         private readonly Dictionary<int, T> items = new Dictionary<int, T>();
         public int Save(T item)

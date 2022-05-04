@@ -14,7 +14,6 @@ namespace Test
             repo = new FakeRepo<Request>();
             instance = new RequestFactory(repo);
         }
-        //todo: Randomise parameters
         private readonly Dto dto = new Dto
         {
             MerchantId = 1,

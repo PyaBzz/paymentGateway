@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Core
 {
     public class Report
-    {//doc: This is a simple immutable Dto
+    {
         public Status Status { get; set; }
         public int Id { get; set; }
         public int MerchantId { get; set; }

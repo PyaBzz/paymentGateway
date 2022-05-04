@@ -7,8 +7,8 @@ namespace Test
 {
     public class RequestTest
     {
-        private const decimal MIN_AMOUNT = 0.5m; //doc: Assumption
-        private const decimal MAX_AMOUNT = 500m; //doc: Assumption
+        private const decimal MIN_AMOUNT = 0.5m;
+        private const decimal MAX_AMOUNT = 500m;
         private int merchantIdDummy;
         private decimal amountDummy;
         private int requestIdDummy;
@@ -18,7 +18,7 @@ namespace Test
         private IRepository<Request> repoMock => repoMocker.Object;
         public RequestTest()
         {
-            Random rng = new Random(); //todo: randomise dummy values
+            Random rng = new Random();
             merchantIdDummy = rng.Next(0, int.MaxValue - 200);
             requestIdDummy = rng.Next(0, int.MaxValue - 200);
             amountDummy = MIN_AMOUNT + new decimal(rng.NextDouble()) * (MAX_AMOUNT - MIN_AMOUNT);

@@ -7,8 +7,7 @@ namespace Test
 {
     public class ReportFactoryTest
     {
-        //todo: Randomise parameters
-        private const string OBSCURE_PART = "****-****-****"; //doc: Rely on separate values for testing
+        private const string OBSCURE_PART = "****-****-****";
         private const string BLANK_CARD_NO = "-";
         private const int requestIdDummy = 13;
         private const int merchantIdDummy = 1;

@@ -16,8 +16,8 @@ namespace Core
     }
 
     public class Request : IRequestable
-    { //doc: almost immutable
-        private const decimal MIN_AMOUNT = 0.5m; //doc: read boundary values from config
+    {
+        private const decimal MIN_AMOUNT = 0.5m;
         private const int MAX_AMOUNT = 500;
         private Request() { }
         public int Id { get; private set; }
@@ -28,13 +28,11 @@ namespace Core
 
         public static Request Create(int merchantId, ICard card, decimal amount, IRepository<Request> repo)
         {
-            //doc: Factory method because the object state is mostly readonly from outside also
-            // In real life repository operations are async which cannot take place in constructor
             var instance = new Request();
             instance.MerchantId = merchantId;
             instance.Card = card;
             instance.Amount = amount;
-            instance.Id = repo.Save(instance); //doc: Encapsulate all state changes including Id-setter
+            instance.Id = repo.Save(instance);
             return instance;
         }
 

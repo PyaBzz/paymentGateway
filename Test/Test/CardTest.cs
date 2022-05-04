@@ -8,8 +8,8 @@ namespace Test
     public class CardTest
     {
         private string numberDummy = "1234-5678-8765-4321";
-        private const int MIN_CVV = 100; //doc: read from config
-        private const int MAX_CVV = 999; //doc: read from config
+        private const int MIN_CVV = 100;
+        private const int MAX_CVV = 999;
         private int cvvDummy = 777;
         private Mock<IDate> dateMocker = new Mock<IDate>();
         private IDate dateMock => dateMocker.Object;

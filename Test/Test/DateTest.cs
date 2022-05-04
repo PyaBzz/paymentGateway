@@ -6,8 +6,8 @@ using Moq;
 namespace Test
 {
     public class DateTest
-    { //doc: randomise test data like RequestTest
-        private const int MIN_YEAR = 1982; //doc: assumption
+    {
+        private const int MIN_YEAR = 1982;
         private const int MIN_MONTH = 1;
         private const int MAX_MONTH = 12;
 

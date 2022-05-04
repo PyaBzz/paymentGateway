@@ -17,7 +17,6 @@ namespace Api.Controllers
         private readonly IReportFactory reportFactory;
         private readonly IRepository<Request> requestRepo;
 
-        //doc: Log for auditing
         public PaymentController(
             IRequestFactory requester,
             IResponseFactory responser,

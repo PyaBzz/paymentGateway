@@ -13,7 +13,7 @@ namespace Core
     }
 
     public class Date : IDate
-    {//doc: immutable
+    {
         private Date() { }
         private const int MIN_YEAR = 1982;
         private const int MIN_MONTH = 1;
@@ -35,8 +35,6 @@ namespace Core
 
         public static Date Create(int year, int month)
         {
-            //doc: assumption some requests that are obviously invalid dont even save in db
-            //doc: assumption parts of the business validation take place upon creation
             var instance = new Date();
             instance.Year = year;
             instance.Month = month;

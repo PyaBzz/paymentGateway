@@ -15,7 +15,7 @@ using Core;
 namespace Api
 {
     public class Startup
-    { //doc: No sln file
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,8 +25,8 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<FakeRepo<Request>>(); //doc: Singleton to retain its memory
-            services.AddSingleton(typeof(IRepository<>), typeof(FakeRepo<>)); //doc: Singleton to retain its memory
+            services.AddSingleton<FakeRepo<Request>>();
+            services.AddSingleton(typeof(IRepository<>), typeof(FakeRepo<>));
 
             services.AddTransient<IBank, FakeBank>();
             services.AddTransient<IRequestFactory, RequestFactory>();
@@ -41,8 +41,6 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            // app.UseHttpsRedirection(); //todo: enable https redirection for security
 
             app.UseRouting();
 

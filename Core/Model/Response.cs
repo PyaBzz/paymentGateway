@@ -7,7 +7,7 @@ namespace Core
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Status { Invalid, Success, Declined }
     public class Response
-    {//doc: This is a simple immutable Dto
+    {
         public Status Status { get; private set; }
         public int Id { get; private set; }
 

@@ -4,9 +4,6 @@ using System.Text.Json.Serialization;
 
 namespace Core
 {
-    //doc: Prevent over-posting
-    //doc: Flatten structure of data transfers
-    //doc: no need to unit test DTOs since they're dumb!
     public class Dto
     {
         public int MerchantId { get; set; }

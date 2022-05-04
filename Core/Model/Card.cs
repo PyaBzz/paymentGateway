@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace Core
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum Currency { GBP, USD, EUR } // [EnumMember(Value = "GBP")]
+    public enum Currency { GBP, USD, EUR }
 
     public interface ICard : IValidatable
     {
@@ -16,11 +16,10 @@ namespace Core
     }
 
     public class Card : ICard
-    {//doc: immutable
-        private const int MIN_CVV = 100; //doc: read from config
-        private const int MAX_CVV = 999; //doc: read from config
+    {
+        private const int MIN_CVV = 100;
+        private const int MAX_CVV = 999;
         private Card() { }
-        //todo: PIN ?
         public string Number { get; private set; }
         public IDate Expiry { get; private set; }
         public int Cvv { get; private set; }
@@ -28,7 +27,6 @@ namespace Core
 
         public static Card Create(string number, IDate date, int cvv, Currency currency)
         {
-            //todo: Validate number
             var instance = new Card
             {
                 Number = number,

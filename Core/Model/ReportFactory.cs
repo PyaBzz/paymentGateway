@@ -8,9 +8,6 @@ namespace Core
     }
     public class ReportFactory : IReportFactory
     {
-        // doc: Allow a merchant to retrieve details of a previously made payment using its identifier.
-        // The response should include a masked card number and card details along with a
-        // status code which indicates the result of the payment.
         private const string OBSCURE_PART = "****-****-****";
         private const string BLANK_CARD_NO = "-";
         public Report Make(Query q, IRequestable request)
