@@ -15,7 +15,7 @@ using Core;
 namespace Api
 {
     public class Startup
-    { //todo: Add projects to the sln file
+    { //doc: No sln file
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
