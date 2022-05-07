@@ -70,7 +70,7 @@ There's no SLN file for VisualStudio in this repository since we don't tie our w
 If you're on an ArchLinux machine, then you're in luck. Just run the setup script in the Scripts directory and let it do the work. Otherwise, please install the packages specified in that script.
 
 ### Use
-To launch the GW just navigate to the Api directory and run: **dotnet run**
+To launch the GW just navigate to the Api directory and run: **dotnet run**  
 If you have access to any Bash environment e.g on a linux machine or in GitBash you can run the test scripts in the scripts directory to hit the end-points and observe the result in terminal.
 Otherwise, one can take json values from those scripts and use any other tool e.g Postman to send them to the end-points.
 
